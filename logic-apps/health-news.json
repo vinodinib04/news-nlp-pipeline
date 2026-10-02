@@ -1,0 +1,85 @@
+﻿{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "contentVersion": "1.0.0.0",
+        "triggers": {
+            "Recurrence": {
+                "recurrence": {
+                    "interval": 1,
+                    "frequency": "Hour"
+                },
+                "evaluatedRecurrence": {
+                    "interval": 1,
+                    "frequency": "Hour"
+                },
+                "type": "Recurrence"
+            }
+        },
+        "actions": {
+            "HTTP": {
+                "runAfter": {},
+                "type": "Http",
+                "inputs": {
+                    "uri": "https://newsapi.org/v2/top-headlines?category=health&pageSize=100&apiKey=52b23de3ecac4228b793809993920441",
+                    "method": "GET"
+                },
+                "runtimeConfiguration": {
+                    "contentTransfer": {
+                        "transferMode": "Chunked"
+                    }
+                }
+            },
+            "Create_blob_(V2)": {
+                "runAfter": {
+                    "HTTP": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azureblob']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "body": "@body('HTTP')",
+                    "headers": {
+                        "ReadFileMetadataFromServer": true
+                    },
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
+                    "queries": {
+                        "folderPath": "/news",
+                        "name": "raw/health-news.json",
+                        "queryParametersSingleEncoded": true
+                    }
+                },
+                "runtimeConfiguration": {
+                    "contentTransfer": {
+                        "transferMode": "Chunked"
+                    }
+                }
+            }
+        },
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "type": "Object",
+                "defaultValue": {}
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "type": "Object",
+            "value": {
+                "azureblob": {
+                    "id": "/subscriptions/4bb8dea9-616d-425d-88fc-b579fe9af645/providers/Microsoft.Web/locations/centralindia/managedApis/azureblob",
+                    "connectionId": "/subscriptions/4bb8dea9-616d-425d-88fc-b579fe9af645/resourceGroups/news-nlp-project/providers/Microsoft.Web/connections/azureblob",
+                    "connectionName": "azureblob",
+                    "connectionProperties": {}
+                }
+            }
+        }
+    }
+}
