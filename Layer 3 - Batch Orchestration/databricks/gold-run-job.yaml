@@ -1,0 +1,19 @@
+resources:
+  jobs:
+    gold_run:
+      name: gold-run
+      tasks:
+        - task_key: gold-layer-task
+          notebook_task:
+            notebook_path: /Workspace/Users/bvinodinireddy@gmail.com/gold_layer_pipeline
+            base_parameters:
+              run_date: run_date
+            source: WORKSPACE
+          environment_key: gold-layer-task_environment
+      queue:
+        enabled: true
+      environments:
+        - environment_key: gold-layer-task_environment
+          spec:
+            environment_version: "6"
+      performance_target: PERFORMANCE_OPTIMIZED

@@ -1,0 +1,117 @@
+{
+    "name": "nlp-nightly-pipeline",
+    "properties": {
+        "activities": [
+            {
+                "name": "Enrichment",
+                "type": "Wait",
+                "dependsOn": [
+                    {
+                        "activity": "Ingestion",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "waitTimeInSeconds": 60
+                }
+            },
+            {
+                "name": "Gold Aggregation",
+                "type": "WebActivity",
+                "dependsOn": [
+                    {
+                        "activity": "Enrichment",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 60,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer XXXXXXXXXXXX"
+                    },
+                    "url": "https://adb-7405612151881024.4.azuredatabricks.net/api/2.1/jobs/run-now",
+                    "body": {
+                        "job_id": 643225712403899,
+                        "notebook_params": {
+                            "run_date": "@{formatDateTime(utcNow(),'yyyy-MM-dd')}"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Failure Alert",
+                "type": "Wait",
+                "dependsOn": [
+                    {
+                        "activity": "Ingestion",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    },
+                    {
+                        "activity": "Enrichment",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    },
+                    {
+                        "activity": "Gold Aggregation",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    },
+                    {
+                        "activity": "Search Index Refresh",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "waitTimeInSeconds": 60
+                }
+            },
+            {
+                "name": "Ingestion",
+                "type": "Wait",
+                "dependsOn": [],
+                "userProperties": [],
+                "typeProperties": {
+                    "waitTimeInSeconds": 1
+                }
+            },
+            {
+                "name": "Search Index Refresh",
+                "type": "Wait",
+                "dependsOn": [
+                    {
+                        "activity": "Gold Aggregation",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "waitTimeInSeconds": 60
+                }
+            }
+        ],
+        "annotations": []
+    }
+}
