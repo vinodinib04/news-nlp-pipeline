@@ -1,0 +1,38 @@
+{
+  "query": "artificial intelligence and technology",
+  "search_type": "hybrid",
+  "keyword_search": "BM25",
+  "vector_search": "HNSW",
+  "similarity": "cosine",
+  "ranking": "RRF",
+  "results": [
+    {
+      "rank": 1,
+      "title": "OpenAI Safety Employee Quits, Calls for Nuclear-Level Safeguards",
+      "source": "Bloomberg",
+      "sentiment": "neutral",
+      "score": 0.0166666675
+    },
+    {
+      "rank": 2,
+      "title": "Synopsys Is the Top Stock in the Nasdaq 100 Today. Here’s Why.",
+      "source": "Barron's",
+      "sentiment": "neutral",
+      "score": 0.0163934417
+    },
+    {
+      "rank": 3,
+      "title": "New Innovation Is Required to Fund AI’s $6 Trillion Buildout",
+      "source": "Bain.com",
+      "sentiment": "neutral",
+      "score": 0.0161290318
+    },
+    {
+      "rank": 4,
+      "title": "Wearable AI forecasts prolonged sitting in women with chronic pelvic pain disorders",
+      "source": "News-Medical.Net",
+      "sentiment": "neutral",
+      "score": 0.0161290318
+    }
+  ]
+}
