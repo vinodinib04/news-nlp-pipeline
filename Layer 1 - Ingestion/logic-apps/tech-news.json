@@ -20,7 +20,7 @@
                 "runAfter": {},
                 "type": "Http",
                 "inputs": {
-                    "uri": "https://newsapi.org/v2/top-headlines?category=technology&pageSize=100&apiKey=52b23de3ecac4228b793809993920441",
+                    "uri": "https://newsapi.org/v2/top-headlines?category=technology&pageSize=100&apiKey=521",
                     "method": "GET"
                 },
                 "runtimeConfiguration": {
