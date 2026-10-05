@@ -20,7 +20,7 @@
                 "runAfter": {},
                 "type": "Http",
                 "inputs": {
-                    "uri": "https://newsapi.org/v2/top-headlines?category=health&pageSize=100&apiKey=52b23de3ecac4228b793809993920441",
+                    "uri": "https://newsapi.org/v2/top-headlines?category=health&pageSize=100&apiKey=1",
                     "method": "GET"
                 },
                 "runtimeConfiguration": {
