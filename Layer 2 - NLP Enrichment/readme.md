@@ -5,20 +5,20 @@ Enrich raw NewsAPI articles with NLP results and vector embeddings for downstrea
 
 ## Flow
 
+```text
 news/raw/
-    ↓
+   ↓
 Azure Function (processnewsnlp)
-    ↓
+   ↓
 Azure AI Language
-    ├── Sentiment Analysis
-    ├── Entity Recognition
-    └── Key Phrase Extraction
-    ↓
-Azure OpenAI
-(text-embedding-3-small)
-    ↓
+   ├── Sentiment Analysis
+   ├── Entity Recognition
+   └── Key Phrase Extraction
+   ↓
+Azure OpenAI (text-embedding-3-small)
+   ↓
 news/silver/
-
+```
 ## Components
 
 - **Azure Function:** Reads raw articles and performs NLP enrichment.
